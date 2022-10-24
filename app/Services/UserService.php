@@ -19,9 +19,7 @@ class UserService
 
     public function getList(array $filter = [])
     {
-        $query = $this->user->query()->latest();
-
-        return $query->paginate(10);
+        return $this->user->filter($filter)->search($filter,['name', 'email', 'phone', 'id', 'address', 'birthday'])->getWithPaginate($filter);
     }
 
     public function create($data)
@@ -29,9 +27,9 @@ class UserService
         DB::beginTransaction();
         try {
             $data['password'] = Hash::make($data['password']);
-
             $user = User::create($data);
-            $user->roles()->sync($data['role']);
+            
+            $user->roles()->sync($data['roles']);
             DB::commit();
 
             return $user;
@@ -44,12 +42,17 @@ class UserService
         }
     }
 
-    public function update($data, $user)
+    public function update($data, User $user)
     {
         DB::beginTransaction();
         try {
+            if($data['password']){
+                $data['password'] = Hash::make($data['password']);
+            } else {
+                $data['password'] = $user->password;
+            }
             $user->fill($data)->save();
-            $user->roles()->sync($data['role']);
+            $user->roles()->sync($data['roles']);
             DB::commit();
 
             return $user;
@@ -63,7 +66,6 @@ class UserService
 
     public function delete(User $user)
     {
-        $user->roles()->detach();
         $user->delete();
     }
 }

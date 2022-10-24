@@ -4,13 +4,10 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import { Grid, Typography } from '@mui/material';
 
 const drawerWidth = 240;
@@ -25,15 +22,20 @@ function SideBar(props) {
 
   const drawer = (
     <div>
-      <Grid padding={2} sx={{ textAlign:"center", height:"64px"}}>
-      <Typography sx={{ fontSize:20, fontWeight:700 }} >Core-Admin</Typography>
+      <Grid padding={2} sx={{ textAlign: "center", height: "64px" }}>
+        <Typography sx={{ fontSize: 20, fontWeight: 700 }} >Core-Admin</Typography>
       </Grid>
       <Divider />
       <List >
-        {['Dashboard', 'User', 'Role', 'Settings'].map((text, index) => (
-          <ListItem key={text} disablePadding alignItems="center">
-            <ListItemButton>
-              <ListItemText primary={text} />
+        <ListItem disablePadding alignItems="center">
+          <ListItemButton href='/dashboard'>
+            <ListItemText primary='Dashboard' />
+          </ListItemButton>
+        </ListItem>
+        {['User', 'Role', 'Setting'].map((text, index) => (
+          <ListItem key={index} disablePadding alignItems="center">
+            <ListItemButton href={route(text.toLowerCase() + '.index')}>
+              <ListItemText primary={text + 's'} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -82,7 +84,7 @@ function SideBar(props) {
       <Box
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
-      > 
+      >
       </Box>
     </Box>
   );

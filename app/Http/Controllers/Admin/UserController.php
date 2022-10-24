@@ -10,6 +10,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -31,10 +33,19 @@ class UserController extends Controller
     {
         $this->authorize('can_do', ['read user']);
 
-        $filter = $request->query();
+        $filter = [
+            ...$request->query(),
+            'filter' => [
+                ...$request->query('filter', []),
+                'is_admin' => 0,
+            ],
+            'paginate' => 10,
+        ];
         $users = $this->userService->getList($filter);
 
-        return view('admin.user.index', compact(['users']));
+        return Inertia::render('Admin/User/index', [
+            'users' => $users,
+        ]);
     }
 
     /**
@@ -44,11 +55,15 @@ class UserController extends Controller
      */
     public function create()
     {
+        $ENABLE = 1;
+        $DISABLE = 0;
         $this->authorize('can_do', ['create user']);
 
-        $roles = Role::all();
+        $roles = Role::where('status', $ENABLE)->get();
 
-        return view('admin.user.create', compact(['roles']));
+        return Inertia::render('Admin/User/create', [
+            'roles' => $roles
+        ]);
     }
 
     /**
@@ -62,11 +77,12 @@ class UserController extends Controller
         $user = $this->userService->create($request->validated());
 
         if (is_null($user)) {
-            return back()->with('error', 'Failed create!');
+            return response()->json([
+                'message' => 'Failed create',
+            ]);
         }
 
-        return redirect()->route('user.index')
-            ->with('message', 'Successfully created!');
+        return Redirect::route('user.index');
     }
 
     /**
@@ -92,9 +108,13 @@ class UserController extends Controller
 
         $user = User::find($id);
         $dataRoles = $user->roles->pluck('id')->toArray();
-        $roles = Role::all();
+        $roles = Role::where('status', 1)->get();
 
-        return view('admin.user.edit', compact(['user', 'roles', 'dataRoles']));
+        return Inertia::render('Admin/User/edit', [
+            'roles' => $roles,
+            'dataRoles' => $dataRoles,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -108,8 +128,7 @@ class UserController extends Controller
     {
         $this->userService->update($request->validated(), $user);
 
-        return redirect()->route('user.index')
-            ->with('message', 'Successfully updated!');
+        return Redirect::route('user.index');
     }
 
     /**
@@ -124,20 +143,27 @@ class UserController extends Controller
 
         $this->userService->delete($user);
 
-        return redirect()->route('user.index')
-            ->with('message', 'Successfully deleted');
+        return Redirect::route('user.index');
     }
 
-    public function profile()
+    public function profileIndex()
     {
         $user = User::find(auth()->id());
-        $dataRoles = $user->roles()->get();
-        $roles = Role::all();
+        $dataRoles = $user->roles->pluck('id')->toArray();
+        if($user->is_admin){
+            $roles = Role::where('status', 1)->get();
+        } else {
+            $roles = Role::where('status', 1)->get();
+        }
 
-        return view('admin.user.profile', compact(['user', 'roles', 'dataRoles']));
+        return Inertia::render('Admin/User/profile', [
+            'roles' => $roles,
+            'dataRoles' => $dataRoles,
+            'user' => $user
+        ]);
     }
 
-    public function profileSave(Request $request)
+    public function profileUpdate(Request $request)
     {
         $user = User::find(auth()->id());
 

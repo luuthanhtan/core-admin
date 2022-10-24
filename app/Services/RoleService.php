@@ -21,7 +21,7 @@ class RoleService
         DB::beginTransaction();
         try {
             $role = Role::create($data);
-            $role->permissions()->sync($data['permission']);
+            $role->permissions()->sync($data['permissions']);
             DB::commit();
 
             return $role;
@@ -34,12 +34,12 @@ class RoleService
         }
     }
 
-    public function update($data, $role)
+    public function update($data, Role $role)
     {
         DB::beginTransaction();
         try {
             $role->fill($data)->save();
-            $role->permissions()->sync($data['permission']);
+            $role->permissions()->sync($data['permissions']);
             DB::commit();
 
             return $role;
@@ -53,7 +53,6 @@ class RoleService
 
     public function delete(Role $role)
     {
-        $role->permissions()->detach();
         $role->delete();
     }
 }

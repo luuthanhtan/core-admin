@@ -3,6 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Support\Trait\HasFilter;
+use App\Support\Trait\HasPagination;
+use App\Support\Trait\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,6 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    use HasFilter, HasPagination, HasSearch;
     use SoftDeletes;
 
     /**
@@ -23,12 +28,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'status',
         'birthday',
         'phone',
         'address',
-        'is_admin',
-        'created_at',
-        'updated_at',
     ];
 
     /**
@@ -48,6 +51,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'status' => 'boolean',
     ];
 
     public function roles()

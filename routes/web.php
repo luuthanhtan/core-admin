@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,4 +31,22 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => ['auth'],
+], function () {
+    Route::resource('user', UserController::class);
+    Route::resource('role', RoleController::class);
+    Route::resource('setting', SettingController::class);
+});
+
+Route::group([
+    'middleware' => ['auth'],
+], function () {
+    Route::get('/admin/role/status/{id}', [RoleController::class, 'setStatus'])->name('role.status');
+    Route::get('/admin/user/status/{id}', [UserController::class, 'setStatus'])->name('user.status');
+    Route::get('/admin/profile', [UserController::class, 'profileIndex'])->name('user.profile');
+});
+
+
+require __DIR__ . '/auth.php';

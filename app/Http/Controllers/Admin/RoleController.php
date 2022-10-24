@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Services\RoleService;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class RoleController extends Controller
 {
@@ -30,7 +32,9 @@ class RoleController extends Controller
 
         $roles = Role::get();
 
-        return view('admin.role.index', compact(['roles']));
+        return Inertia::render('Admin/Role/index', [
+            'roles' => $roles,
+        ]);
     }
     
     /**
@@ -44,7 +48,9 @@ class RoleController extends Controller
 
         $permissions = Permission::all();
         
-        return view('admin.role.create', compact(['permissions']));
+        return Inertia::render('Admin/Role/create', [
+            'permissions' => $permissions,
+        ]);
     }
     
     /**
@@ -58,11 +64,12 @@ class RoleController extends Controller
         $role = $this->roleService->create($request->validated());
 
         if (is_null($role)) {
-            return back()->with('error', 'Failed create!');
+            return response()->json([
+                'message' => 'Failed create',
+            ]);
         }
-        
-        return redirect()->route('role.index')
-        ->with('message', 'Successfully created');
+
+        return Redirect::route('role.index');
     }
     
     /**
@@ -85,12 +92,16 @@ class RoleController extends Controller
     public function edit($id)
     {
         $this->authorize('can_do', ['edit role']);
-
+        
         $role = Role::find($id);
         $dataPermissions = $role->permissions->pluck('id')->toArray();
         $permissions = Permission::all();
         
-        return view('admin.role.edit', compact(['role', 'dataPermissions', 'permissions']));
+        return Inertia::render('Admin/Role/edit', [
+            'role' => $role,
+            'dataPermissions' => $dataPermissions,
+            'permissions' => $permissions,
+        ]);
     }
     
     /**
@@ -102,10 +113,15 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        $this->roleService->update($request->validated(), $role);
+        $updateSuccess = $this->roleService->update($request->validated(), $role);
+
+        if (is_null($updateSuccess)) {
+            return response()->json([
+                'message' => 'Failed create',
+            ]);
+        }
         
-        return redirect()->route('role.index')
-        ->with('message', 'Successfully updated');
+        return Redirect::route('role.index');
     }
     
     /**
@@ -120,8 +136,7 @@ class RoleController extends Controller
 
         $this->roleService->delete($role);
         
-        return redirect()->route('role.index')
-        ->with('message', 'Successfully deleted');
+        return Redirect::route('role.index');
     }
     
     /**
@@ -138,9 +153,6 @@ class RoleController extends Controller
         $role->status = !($role->status);
         $role->save();
 
-        $message = 'Successfully change '.$role->name.' status!';
-
-        return redirect()->route('role.index')
-            ->with('message', $message);
+        return Redirect::route('role.index');
     }
 }

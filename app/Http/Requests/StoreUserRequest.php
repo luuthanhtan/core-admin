@@ -29,10 +29,7 @@ class StoreUserRequest extends FormRequest
             'email' => ['required'],
             'password' => ['required', 'confirmed'],
             'status' => ['required'],
-            'role' => ['required', 'array'],
-            'birthday' => ['nullable'],
-            'phone' => ['nullable'],
-            'address' => ['nullable'],
+            'roles' => ['required', 'array'],
         ];
     }
 }
