@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Queue\Connectors\NullConnector;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +20,7 @@ class UserService
 
     public function getList(array $filter = [])
     {
-        return $this->user->filter($filter)->search($filter,['name', 'email', 'phone', 'id', 'address', 'birthday'])->getWithPaginate($filter);
+        return $this->user->filter($filter)->search($filter, ['name', 'email', 'phone', 'id', 'address', 'birthday'])->getWithPaginate($filter);
     }
 
     public function create($data)
@@ -28,7 +29,7 @@ class UserService
         try {
             $data['password'] = Hash::make($data['password']);
             $user = User::create($data);
-            
+
             $user->roles()->sync($data['roles']);
             DB::commit();
 
@@ -46,7 +47,7 @@ class UserService
     {
         DB::beginTransaction();
         try {
-            if($data['password']){
+            if ($data['password']) {
                 $data['password'] = Hash::make($data['password']);
             } else {
                 $data['password'] = $user->password;
@@ -67,5 +68,45 @@ class UserService
     public function delete(User $user)
     {
         $user->delete();
+    }
+
+    public function updateProfile($data, User $user)
+    {
+        DB::beginTransaction();
+        try {
+            $user->update([
+                "name" => $data['name'],
+                "birthday" => $data['birthday'],
+                "address" => $data['address'],
+                "phone" => $data['phone'],
+            ]);
+            DB::commit();
+
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+
+            return null;
+        }
+    }
+
+    public function updatePassword($data, User $user)
+    {
+        DB::beginTransaction();
+
+        try {
+            $user->update([
+                "password" => Hash::make($data['password']),
+            ]);
+            DB::commit();
+
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+
+            return null;
+        }
     }
 }

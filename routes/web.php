@@ -46,6 +46,10 @@ Route::group([
     Route::get('/admin/role/status/{id}', [RoleController::class, 'setStatus'])->name('role.status');
     Route::get('/admin/user/status/{id}', [UserController::class, 'setStatus'])->name('user.status');
     Route::get('/admin/profile', [UserController::class, 'profileIndex'])->name('user.profile');
+    Route::put('/admin/profile/{id}', [UserController::class, 'profileUpdate'])->name('user.profile-update');
+    Route::get('/admin/password', [UserController::class, 'passwordIndex'])->name('user.password');
+    Route::put('/admin/password/{id}', [UserController::class, 'passwordUpdate'])->name('user.password-update');
+
 });
 
 

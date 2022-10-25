@@ -4,7 +4,7 @@ import { Head, useForm } from '@inertiajs/inertia-react';
 import { Box, Button, Checkbox, FormControlLabel, FormControl, Select, Grid, Paper, TextField, Typography, InputLabel, MenuItem } from '@mui/material';
 import InputError from '@/Components/InputError';
 
-export default function CreateUser({ auth, roles, dataRoles, user }) {
+export default function EditUser({ auth, roles, dataRoles, user }) {
 
     const { data, setData, put, errors } = useForm({
         name: user.name,
@@ -28,7 +28,7 @@ export default function CreateUser({ auth, roles, dataRoles, user }) {
         })
     }
 
-    const onBtnCreateClick = (e) => {
+    const onBtnUpdateClick = (e) => {
         e.preventDefault()
         if (changePassword) {
             if (data.password < 8) {
@@ -137,7 +137,7 @@ export default function CreateUser({ auth, roles, dataRoles, user }) {
                         </Grid>
                     </div>
                 </Box>
-                <Button variant='contained' onClick={onBtnCreateClick}>Create</Button>
+                <Button variant='contained' onClick={onBtnUpdateClick}>Update</Button>
             </Paper>
 
         </AuthenticatedLayout>

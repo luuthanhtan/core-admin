@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
@@ -149,8 +151,10 @@ class UserController extends Controller
     public function profileIndex()
     {
         $user = User::find(auth()->id());
+
         $dataRoles = $user->roles->pluck('id')->toArray();
-        if($user->is_admin){
+
+        if ($user->is_admin) {
             $roles = Role::where('status', 1)->get();
         } else {
             $roles = Role::where('status', 1)->get();
@@ -163,48 +167,45 @@ class UserController extends Controller
         ]);
     }
 
-    public function profileUpdate(Request $request)
+    public function profileUpdate(UpdateProfileRequest $request)
     {
         $user = User::find(auth()->id());
 
-        $data = $request->validate([
-            'name' => 'required',
-            'birthday' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'password' => 'required',
-        ]);
+        $user = $this->userService->updateProfile($request->validated(), $user);
 
-        if (Hash::check($data['password'], $user->password)) {
-            $data['password'] = $user->password;
-            $user->fill($data)->save();
-            return redirect()->route('profile')
-                ->with('message', 'Successfully updated!');
-        } else {
-            return redirect()->route('profile')
-                ->with('error', 'Incorrect password!');
+        if (is_null($user)) {
+            return Redirect::route('user.profile');
         }
+
+        return Redirect::route('user.profile');
     }
 
-    public function changePassword(Request $request)
+    public function passwordIndex()
+    {
+        $id = auth()->id();
+
+        return Inertia::render('Admin/User/password', [
+            'id' => $id,
+        ]);
+    }
+
+    public function passwordUpdate(UpdatePasswordRequest $request)
     {
         $user = User::find(auth()->id());
-        
-        $request->validate([
-            'current_password' => 'required',
-            'new_password' => ['required', 'confirmed'],
-            'new_password_confirmation' => 'required',
-        ]);
-
-        if (Hash::check($request->current_password, $user->password)) {
-            $user->password = Hash::make($request->new_password);
-            $user->save();
-
-            return redirect()->route('profile')
-                ->with('message_pass', 'Successfully updated!');
+        if (!(Hash::check($request['current_password'], $user->password))) {
+            return Inertia::render('Admin/User/password', [
+                'id' => auth()->id(),
+            ])->withViewData([
+                'messageLog' => 'Something you want to pass to front-end',
+            ]);
         } else {
-            return redirect()->route('profile')
-                ->with('error_pass', 'Incorrect password!');
+            $user = $this->userService->updatePassword($request->validated(), $user);
+
+            if (is_null($user)) {
+                return $user;
+            }
+
+            return Redirect::route('user.index');
         }
     }
 }

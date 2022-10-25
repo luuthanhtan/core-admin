@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link } from '@inertiajs/inertia-react';
 import SideBar from '@/Components/Sidebar';
 import { Grid } from '@mui/material';
 
@@ -56,6 +53,11 @@ export default function Authenticated({ auth, header, children }) {
                                                     href={route('user.profile')}>
                                                     Profile
                                                 </a>
+                                                <a
+                                                    className='block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
+                                                    href={route('user.password')}>
+                                                    Change password
+                                                </a>
                                                 <Dropdown.Link href={route('logout')} method="post" as="button">
                                                     Log Out
                                                 </Dropdown.Link>
@@ -106,6 +108,9 @@ export default function Authenticated({ auth, header, children }) {
                                 <div className="mt-3 space-y-1">
                                     <ResponsiveNavLink method='get' href={route('user.profile')} as="button">
                                         Profile
+                                    </ResponsiveNavLink>
+                                    <ResponsiveNavLink method='get' href={route('user.password')} as="button">
+                                        Change password
                                     </ResponsiveNavLink>
                                     <ResponsiveNavLink method="post" href={route('logout')} as="button">
                                         Log Out
