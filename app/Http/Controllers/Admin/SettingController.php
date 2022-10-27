@@ -3,10 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\TimezoneService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SettingController extends Controller
 {
+    protected $timezoneService;
+
+    public function __construct(TimezoneService  $timezoneService)
+    {
+        $this->timezoneService = $timezoneService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,10 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        $timezones = $this->timezoneService->getList();
+        return Inertia::render('Admin/Setting/index', [
+            'timezones' => $timezones,
+        ]);
     }
 
     /**

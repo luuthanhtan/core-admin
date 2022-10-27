@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, useForm, usePage } from '@inertiajs/inertia-react';
+import { Head, useForm } from '@inertiajs/inertia-react';
 import { Box, Button, Paper, TextField } from '@mui/material';
 import InputError from '@/Components/InputError';
 
-export default function Password({ auth, id, messageLog }) {
+export default function Password({ auth }) {
 
-    console.log(messageLog)
     const { data, setData, put, errors, reset } = useForm({
         current_password: '',
         password: '',
@@ -15,7 +14,7 @@ export default function Password({ auth, id, messageLog }) {
 
     const onBtnUpdateClick = (e) => {
         e.preventDefault()
-        put(route('user.password-update', id))
+        put(route('user.password-update'))
     }
 
     useEffect(() => {
@@ -32,6 +31,8 @@ export default function Password({ auth, id, messageLog }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Change password</h2>}
         >
             <Head title="Change password" />
+
+
 
             <Paper elevation={24} sx={{ padding: 5, margin: 3 }}>
                 <Box
@@ -54,8 +55,8 @@ export default function Password({ auth, id, messageLog }) {
                             name='current_password'
                             onChange={e => setData('current_password', e.target.value)}
                         />
-                        <InputError message={errors.current_password} className="mt-2" />
-
+                        <InputError message={errors.current_password} className="mb-4 ml-2" />
+                        
                         <TextField
                             value={data.password}
                             required
@@ -68,7 +69,7 @@ export default function Password({ auth, id, messageLog }) {
                             name='password'
                             onChange={e => setData('password', e.target.value)}
                         />
-                        <InputError message={errors.password} className="mt-2" />
+                        <InputError message={errors.password} className='mb-4 ml-2'/>
 
                         <TextField
                             value={data.password_confirmation}
@@ -81,7 +82,8 @@ export default function Password({ auth, id, messageLog }) {
                             name='password_confirmation'
                             onChange={e => setData('password_confirmation', e.target.value)}
                         />
-                        <InputError message={errors.password_confirmation} className="mt-2" />
+                        <InputError message={errors.password_confirmation} className='ml-2'/>
+
                     </div>
                 </Box>
                 <Button variant='contained' sx={{ margin: 2 }} onClick={onBtnUpdateClick}>Change</Button>

@@ -4,14 +4,14 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import SideBar from '@/Components/Sidebar';
 import { Grid } from '@mui/material';
 
-export default function Authenticated({ auth, header, children }) {
+export default function Authenticated({ auth, header, children, timeZone }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
         <div className="min-h-screen bg-gray-100">
             <Grid container>
                 <Grid item xs={2}>
-                    <SideBar />
+                    <SideBar timeZone={timeZone} />
                 </Grid>
                 <Grid item xs={10}>
                     <nav className="bg-white border-b border-gray-100">
@@ -107,13 +107,13 @@ export default function Authenticated({ auth, header, children }) {
 
                                 <div className="mt-3 space-y-1">
                                     <ResponsiveNavLink method='get' href={route('user.profile')} as="button">
-                                        Profile
+                                        { 'Profile' }
                                     </ResponsiveNavLink>
                                     <ResponsiveNavLink method='get' href={route('user.password')} as="button">
-                                        Change password
+                                        { 'Change password' }
                                     </ResponsiveNavLink>
                                     <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                        Log Out
+                                        { 'Log Out' }
                                     </ResponsiveNavLink>
                                 </div>
                             </div>

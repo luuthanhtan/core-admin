@@ -92,8 +92,8 @@ export default function EditUser({ auth, roles, dataRoles, user }) {
                                 label="Status"
                                 onChange={e => setData('status', e.target.value)}
                             >
-                                <MenuItem value={1}>Enable</MenuItem>
-                                <MenuItem value={0}>Disable</MenuItem>
+                                <MenuItem value={true}>Enable</MenuItem>
+                                <MenuItem value={false}>Disable</MenuItem>
                             </Select>
                         </FormControl>
                         <FormControlLabel

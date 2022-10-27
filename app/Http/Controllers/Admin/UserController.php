@@ -10,7 +10,6 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -150,7 +149,7 @@ class UserController extends Controller
 
     public function profileIndex()
     {
-        $user = User::find(auth()->id());
+        $user = auth()->user();
 
         $dataRoles = $user->roles->pluck('id')->toArray();
 
@@ -163,15 +162,13 @@ class UserController extends Controller
         return Inertia::render('Admin/User/profile', [
             'roles' => $roles,
             'dataRoles' => $dataRoles,
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
     public function profileUpdate(UpdateProfileRequest $request)
     {
-        $user = User::find(auth()->id());
-
-        $user = $this->userService->updateProfile($request->validated(), $user);
+        $user = $this->userService->updateProfile($request->validated(), auth()->user());
 
         if (is_null($user)) {
             return Redirect::route('user.profile');
@@ -191,21 +188,12 @@ class UserController extends Controller
 
     public function passwordUpdate(UpdatePasswordRequest $request)
     {
-        $user = User::find(auth()->id());
-        if (!(Hash::check($request['current_password'], $user->password))) {
-            return Inertia::render('Admin/User/password', [
-                'id' => auth()->id(),
-            ])->withViewData([
-                'messageLog' => 'Something you want to pass to front-end',
-            ]);
-        } else {
-            $user = $this->userService->updatePassword($request->validated(), $user);
+        $user = $this->userService->updatePassword($request->validated(), auth()->user());
 
-            if (is_null($user)) {
-                return $user;
-            }
-
-            return Redirect::route('user.index');
+        if (is_null($user)) {
+            return $user;
         }
+
+        return Redirect::route('user.index');
     }
 }

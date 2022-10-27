@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,6 +16,19 @@ const drawerWidth = 240;
 function SideBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [time, setTime] = useState(new Date().toLocaleString("en-US"));
+
+  useEffect(() => {
+    const time = () => {
+      const event = new Date();
+      setTime(event.toLocaleString('en-US', { timeZone: props.timeZone }));
+    };
+    const intervalId = setInterval(time, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [props.timeZone]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -29,17 +43,29 @@ function SideBar(props) {
       <List >
         <ListItem disablePadding alignItems="center">
           <ListItemButton href='/dashboard'>
-            <ListItemText primary='Dashboard' />
+            <ListItemText>{'Dashboard'}</ListItemText>
           </ListItemButton>
         </ListItem>
-        {['User', 'Role', 'Setting'].map((text, index) => (
-          <ListItem key={index} disablePadding alignItems="center">
-            <ListItemButton href={route(text.toLowerCase() + '.index')}>
-              <ListItemText primary={text + 's'} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding alignItems="center">
+          <ListItemButton href={route('user.index')}>
+            <ListItemText>{'Users'}</ListItemText>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding alignItems="center">
+          <ListItemButton href={route('role.index')}>
+            <ListItemText>{'Roles'}</ListItemText>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding alignItems="center">
+          <ListItemButton href={route('setting.index')}>
+            <ListItemText>{'Settings'}</ListItemText>
+          </ListItemButton>
+        </ListItem>
       </List>
+      <Divider />
+      <Grid padding={2} sx={{ textAlign: "center" }}>
+        <Typography sx={{ fontSize: 15, fontWeight: 500 }} >{time}</Typography>
+      </Grid>
       <Divider />
     </div>
   );
@@ -85,6 +111,7 @@ function SideBar(props) {
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
+
       </Box>
     </Box>
   );

@@ -22,9 +22,9 @@ export default function User({ auth, errors, users }) {
         <AuthenticatedLayout
             auth={auth}
             errors={errors}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">User</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">User List</h2>}
         >
-            <Head title="User" />
+            <Head title="User List" />
 
             <Button variant='contained' sx={{ margin: 2 }} href={route('user.create')}>Create User</Button>
 

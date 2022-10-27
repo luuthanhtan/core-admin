@@ -48,7 +48,7 @@ Route::group([
     Route::get('/admin/profile', [UserController::class, 'profileIndex'])->name('user.profile');
     Route::put('/admin/profile/{id}', [UserController::class, 'profileUpdate'])->name('user.profile-update');
     Route::get('/admin/password', [UserController::class, 'passwordIndex'])->name('user.password');
-    Route::put('/admin/password/{id}', [UserController::class, 'passwordUpdate'])->name('user.password-update');
+    Route::put('/admin/password', [UserController::class, 'passwordUpdate'])->name('user.password-update');
 
 });
 
