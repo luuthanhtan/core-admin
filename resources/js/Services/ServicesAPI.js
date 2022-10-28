@@ -1,7 +1,7 @@
 import { fetchAPI } from "./FetchAPI";
 
-const fetchCreateRole = (data = {}) => {
-    return fetchAPI("http://localhost/admin/role", data)
+const fetchUserSettings = (id) => {
+    return fetchAPI(route('setting.show', id))
         .then((data) => {
             return data;
         })
@@ -10,4 +10,4 @@ const fetchCreateRole = (data = {}) => {
         })
 }
 
-export { fetchCreateRole}
+export { fetchUserSettings }

@@ -10,25 +10,23 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Grid, Typography } from '@mui/material';
+import ClockSideBar from './ClockSideBar';
+import changeLanguage from '../../lang/index';
+import { useSelector } from 'react-redux';
+
 
 const drawerWidth = 240;
 
 function SideBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [time, setTime] = useState(new Date().toLocaleString("en-US"));
+  const { language } = useSelector((state) => state.settingsReducer);
+  const [languageUser, setLanguageUser] = useState(changeLanguage('en'));
+
 
   useEffect(() => {
-    const time = () => {
-      const event = new Date();
-      setTime(event.toLocaleString('en-US', { timeZone: props.timeZone }));
-    };
-    const intervalId = setInterval(time, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [props.timeZone]);
+    setLanguageUser(changeLanguage(language))
+  }, [language])
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -43,30 +41,26 @@ function SideBar(props) {
       <List >
         <ListItem disablePadding alignItems="center">
           <ListItemButton href='/dashboard'>
-            <ListItemText>{'Dashboard'}</ListItemText>
+            <ListItemText>{languageUser.dashboard}</ListItemText>
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding alignItems="center">
           <ListItemButton href={route('user.index')}>
-            <ListItemText>{'Users'}</ListItemText>
+            <ListItemText>{languageUser.users}</ListItemText>
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding alignItems="center">
           <ListItemButton href={route('role.index')}>
-            <ListItemText>{'Roles'}</ListItemText>
+            <ListItemText>{languageUser.roles}</ListItemText>
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding alignItems="center">
           <ListItemButton href={route('setting.index')}>
-            <ListItemText>{'Settings'}</ListItemText>
+            <ListItemText>{languageUser.settings}</ListItemText>
           </ListItemButton>
         </ListItem>
+        <ClockSideBar />
       </List>
-      <Divider />
-      <Grid padding={2} sx={{ textAlign: "center" }}>
-        <Typography sx={{ fontSize: 15, fontWeight: 500 }} >{time}</Typography>
-      </Grid>
-      <Divider />
     </div>
   );
 

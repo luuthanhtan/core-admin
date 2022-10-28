@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dropdown from '@/Components/Dropdown';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import SideBar from '@/Components/Sidebar';
 import { Grid } from '@mui/material';
+import { fetchUserSettings } from '@/Services/ServicesAPI';
+import { useDispatch, useSelector } from 'react-redux';
+import { settingsSetSettingsActions } from '@/redux/actions/settingsActions';
+import changeLanguage from '../../lang/index';
 
-export default function Authenticated({ auth, header, children, timeZone }) {
+export default function Authenticated({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const { language, theme, isLoaded } = useSelector((state) => state.settingsReducer);
+    const [languageUser, setLanguageUser] = useState(changeLanguage('en'));
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        setLanguageUser(changeLanguage(language))
+    }, [language])
+
+    useEffect(() => {
+        if (!isLoaded) {
+            fetchUserSettings(auth.user.id).then(data => {
+                dispatch(settingsSetSettingsActions({ ...data, isLoaded: true }))
+            })
+        }
+    }, [isLoaded]);
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen" style={{ backgroundColor:theme }}>
             <Grid container>
                 <Grid item xs={2}>
-                    <SideBar timeZone={timeZone} />
+                    <SideBar />
                 </Grid>
                 <Grid item xs={10}>
                     <nav className="bg-white border-b border-gray-100">
@@ -51,15 +70,15 @@ export default function Authenticated({ auth, header, children, timeZone }) {
                                                 <a
                                                     className='block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
                                                     href={route('user.profile')}>
-                                                    Profile
+                                                    {languageUser.profile}
                                                 </a>
                                                 <a
                                                     className='block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out'
                                                     href={route('user.password')}>
-                                                    Change password
+                                                    {languageUser.change_password}
                                                 </a>
                                                 <Dropdown.Link href={route('logout')} method="post" as="button">
-                                                    Log Out
+                                                    {languageUser.log_out}
                                                 </Dropdown.Link>
                                             </Dropdown.Content>
                                         </Dropdown>
@@ -107,13 +126,13 @@ export default function Authenticated({ auth, header, children, timeZone }) {
 
                                 <div className="mt-3 space-y-1">
                                     <ResponsiveNavLink method='get' href={route('user.profile')} as="button">
-                                        { 'Profile' }
+                                        {'Profile'}
                                     </ResponsiveNavLink>
                                     <ResponsiveNavLink method='get' href={route('user.password')} as="button">
-                                        { 'Change password' }
+                                        {'Change password'}
                                     </ResponsiveNavLink>
                                     <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                        { 'Log Out' }
+                                        {'Log Out'}
                                     </ResponsiveNavLink>
                                 </div>
                             </div>
