@@ -125,7 +125,7 @@ export default function CreateUser({ auth, roles }) {
                         <InputError message={errors.password_confirmation} className="mt-2" />
                         
                         <Grid sx={{ padding: 2 }}>
-                            <Typography sx={{ fontWeight: 700, padding: 2, fontSize: 20 }}>Role</Typography>
+                            <Typography sx={{ fontWeight: 700, padding: 2, fontSize: 20 }}>Role*</Typography>
                             {
                                 roles.map((role, index) => {
                                     return (
@@ -140,7 +140,6 @@ export default function CreateUser({ auth, roles }) {
                             }
                         </Grid>
                         <InputError message={errors.roles} className="mt-2" />
-
                     </div>
                 </Box>
                 <Button variant='contained' onClick={onBtnCreateClick}>Create</Button>

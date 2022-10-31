@@ -4,20 +4,23 @@ import { useEffect, useState } from 'react';
 import changeLanguage from '../../../../../lang/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { settingsSetLoadedActions } from '@/redux/actions/settingsActions';
-import { backgroundColor } from '../color';
+
 
 export default function Content({ timezones }) {
     const { timezone, language, theme, isLoaded } = useSelector((state) => state.settingsReducer);
-    const [valueDefault, setValueDefault] = useState('')
+    const [valueDefault, setValueDefault] = useState({
+        firstLetter: 'Asia',
+        text: 'Asia/Ho_Chi_Minh (UTC+07:00)',
+        value: 'Asia/Ho_Chi_Minh'
+    })
     const { data, setData, post } = useForm({
         timezone: timezone,
-        language: language,
+        language: 'en',
         theme: theme,
     })
 
     const [languageUser, setLanguageUser] = useState(changeLanguage('en'));
     const dispatch = useDispatch();
-
 
     const options = timezones.map((option) => {
         const firstLetter = option.value.split("/")[0];
@@ -46,9 +49,9 @@ export default function Content({ timezones }) {
 
     useEffect(() => {
         setData({
-            timezone: timezone,
-            language: language,
-            theme: theme,
+            timezone: timezone ? timezone : 'Asia/Ho_Chi_Minh',
+            language: language ? language : 'en',
+            theme: theme ? theme : '#eeeeee',
         });
         setValueDefault(getValueDefault());
     }, [isLoaded, valueDefault])
@@ -72,10 +75,17 @@ export default function Content({ timezones }) {
                                     options={options}
                                     groupBy={(option) => option.firstLetter}
                                     getOptionLabel={(option) => option.text}
+                                    onChange={(e, value) => { value && setData("timezone", value.value); console.log(value) }}
+                                    sx={{ width: 400 }}
+                                    renderInput={(params) => <TextField {...params} label="Timezone" />}
+                                /> : <Autocomplete
+                                    options={options}
+                                    groupBy={(option) => option.firstLetter}
+                                    getOptionLabel={(option) => option.text}
                                     onChange={(e, value) => value && setData("timezone", value.value)}
                                     sx={{ width: 400 }}
                                     renderInput={(params) => <TextField {...params} label="Timezone" />}
-                                /> : null
+                                />
                         }
                     </Grid>
                 </Grid>
@@ -86,7 +96,7 @@ export default function Content({ timezones }) {
                     <Grid item>
                         <Select
                             value={data.language}
-                            onChange={(e) => { setData("language", e.target.value) }}
+                            onChange={(e) => { { setData("language", e.target.value) } }}
                         >
                             <MenuItem value='en'>
                                 {'English'}
@@ -104,7 +114,7 @@ export default function Content({ timezones }) {
                     <Grid item>
                         <TextField
                             type="color"
-                            sx={{ width:'100px'}}
+                            sx={{ width: '100px' }}
                             value={data.theme}
                             onChange={(e) => { setData("theme", e.target.value) }} />
                     </Grid>

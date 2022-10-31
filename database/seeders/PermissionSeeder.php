@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class PermissionSeeder extends Seeder
@@ -39,6 +40,13 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'delete role',
             ],
+            [
+                'name' => 'enable role'
+            ],
+        ]);
+        Role::insert([
+            'name' => 'Guest',
+            'status' => true,
         ]);
     }
 }

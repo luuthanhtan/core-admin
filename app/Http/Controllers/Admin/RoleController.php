@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Services\RoleService;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -29,11 +30,17 @@ class RoleController extends Controller
     public function index()
     {
         $this->authorize('can_do', ['read role']);
+        $can_create = Gate::check('can_do', ['create role']);
+        $can_delete = Gate::check('can_do', ['delete role']);
+        $can_edit = Gate::check('can_do', ['edit role']);
 
         $roles = Role::get();
 
         return Inertia::render('Admin/Role/index', [
             'roles' => $roles,
+            'can_create' => $can_create,
+            'can_delete' => $can_delete,
+            'can_edit' => $can_edit,
         ]);
     }
     

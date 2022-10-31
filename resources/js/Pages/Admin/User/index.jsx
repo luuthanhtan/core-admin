@@ -1,22 +1,103 @@
 import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/inertia-react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useForm } from '@inertiajs/inertia-react'
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 
-export default function User({ auth, errors, users }) {
+export default function User({ auth, errors, users, can_create, can_delete, can_edit }) {
 
     const { delete: destroy } = useForm()
+    console.log(users)
+    const columns = [
+        { field: 'id', headerName: 'ID', width: 90 },
+        {
+            field: 'name',
+            headerName: 'Name',
+            width: 150,
+            width: 150,
+            editable: true,
+        },
+        {
+            field: 'birthday',
+            headerName: 'Birthday',
+            width: 150,
+            editable: true,
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            width: 150,
+            editable: true,
+        },
+        {
+            field: 'phone',
+            headerName: 'Phone',
+            width: 150,
+            editable: true,
+        },
+        {
+            field: 'address',
+            headerName: 'Address',
+            width: 150,
+            editable: true,
+        },
+        {
+            field: 'status',
+            headerName: 'Status',
+            width: 90,
+            editable: true,
+            headerAlign: 'center',
+            renderCell: (params) => (
+                <TableCell align="center">
+                    {params ? 'Enable' : 'Disable'}
+                </TableCell>
+            )
+        },
+        {
+            field: 'action',
+            headerName: 'Action',
+            sortable: false,
+            headerAlign: 'center',
+            renderCell: (params) => (
+                <TableRow
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                    {
+                        can_edit || can_delete ?
+                            <TableCell align="center">
+                                {
+                                    can_edit ?
+                                        <Button href={route('user.edit', params.row.id)}>
+                                            <EditIcon />
+                                        </Button> : null
+                                }
+                                {
+                                    can_delete ?
+                                        <Button
+                                            onClick={() => {
+                                                if (confirm('Are you sure?'))
+                                                    destroy(route('user.destroy', params.row.id))
+                                            }}
+                                            sx={{ color: 'red' }}
+                                        >
+                                            <DeleteIcon />
+                                        </Button>
+                                        : null
+                                }
+                            </TableCell>
+                            : null
+                    }
+                </TableRow>
+            ),
+        },
+    ];
 
     return (
         <AuthenticatedLayout
@@ -25,55 +106,22 @@ export default function User({ auth, errors, users }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">User List</h2>}
         >
             <Head title="User List" />
-
-            <Button variant='contained' sx={{ margin: 2 }} href={route('user.create')}>Create User</Button>
-
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center">ID</TableCell>
-                            <TableCell align="center">Name</TableCell>
-                            <TableCell align="center">Birthday</TableCell>
-                            <TableCell align="center">Email</TableCell>
-                            <TableCell align="center">Phone</TableCell>
-                            <TableCell align="center">Address</TableCell>
-                            <TableCell align="center">Status</TableCell>
-                            <TableCell align="center">Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {users.data.map((user, index) => (
-                            <TableRow
-                                key={index}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell align="center">{user.id}</TableCell>
-                                <TableCell align="center">{user.name}</TableCell>
-                                <TableCell align="center">{user.birthday}</TableCell>
-                                <TableCell align="center">{user.email}</TableCell>
-                                <TableCell align="center">{user.phone}</TableCell>
-                                <TableCell align="center">{user.address}</TableCell>
-                                <TableCell align="center">
-                                    {user.status ? 'Enable' : 'Disable'}
-                                </TableCell>
-                                <TableCell align="center">
-                                    <Button href={route('user.edit', user.id)}><EditIcon /></Button>
-                                    <Button
-                                        onClick={() => {
-                                            if (confirm('Are you sure?'))
-                                                destroy(route('user.destroy', user.id))
-                                        }}
-                                        sx={{ color: 'red' }}
-                                    >
-                                        <DeleteIcon />
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            {
+                can_create ?
+                    <Button variant='contained' sx={{ margin: 2 }} href={route('user.create')}>Create User</Button>
+                    : null
+            }
+            <Paper elevation={24} sx={{ padding: 5, margin: 3 }}>
+                <Box sx={{ height: 400, width: '100%' }}>
+                    <DataGrid
+                        rows={users.data}
+                        columns={columns}
+                        disableSelectionOnClick
+                        experimentalFeatures={{ newEditingApi: true }}
+                        components={{ Toolbar: GridToolbar }}
+                    />
+                </Box>
+            </Paper>
         </AuthenticatedLayout>
     );
 }

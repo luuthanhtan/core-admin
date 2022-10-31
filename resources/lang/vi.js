@@ -9,5 +9,9 @@ const viLanguage = {
     'timezone': 'Múi giờ',
     'language': 'Ngôn ngữ',
     'theme': 'Giao diện',
+
+
+    // Role
+    'create_role': 'Tạo role mới',
 }
 export { viLanguage }

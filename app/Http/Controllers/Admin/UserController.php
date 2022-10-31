@@ -11,6 +11,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -33,6 +34,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $this->authorize('can_do', ['read user']);
+        $can_create = Gate::check('can_do', ['create user']);
+        $can_delete = Gate::check('can_do', ['delete user']);
+        $can_edit = Gate::check('can_do', ['edit user']);
 
         $filter = [
             ...$request->query(),
@@ -46,6 +50,9 @@ class UserController extends Controller
 
         return Inertia::render('Admin/User/index', [
             'users' => $users,
+            'can_create' => $can_create,
+            'can_delete' => $can_delete,
+            'can_edit' => $can_edit,
         ]);
     }
 

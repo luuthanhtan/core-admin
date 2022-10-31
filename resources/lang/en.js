@@ -9,5 +9,8 @@ const enLanguage = {
     'timezone': 'Timezone',
     'language': 'Language',
     'theme': 'Theme',
+
+    // Role
+    'create_role': 'Create role',
 }
 export { enLanguage }
