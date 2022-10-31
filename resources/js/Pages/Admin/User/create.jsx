@@ -70,7 +70,7 @@ export default function CreateUser({ auth, roles }) {
                             name='name'
                             onChange={e => setData('name', e.target.value)}
                         />
-                        <InputError message={errors.name} className="mt-2" />
+                        <InputError message={errors.name} className="ml-5 mb-4" />
 
                         <TextField
                             value={data.email}
@@ -83,8 +83,6 @@ export default function CreateUser({ auth, roles }) {
                             name='email'
                             onChange={e => setData('email', e.target.value)}
                         />
-                        <InputError message={errors.email} className="mt-2" />
-
                         <FormControl sx={{ margin: 1 }}>
                             <InputLabel>Status</InputLabel>
                             <Select
@@ -97,6 +95,8 @@ export default function CreateUser({ auth, roles }) {
                                 <MenuItem value={0}>Disable</MenuItem>
                             </Select>
                         </FormControl>
+                        <InputError message={errors.email} className="ml-5 mb-4" />
+
                         <TextField
                             value={data.password}
                             required
@@ -109,7 +109,6 @@ export default function CreateUser({ auth, roles }) {
                             name='password'
                             onChange={e => setData('password', e.target.value)}
                         />
-                        <InputError message={errors.password} className="mt-2" />
 
                         <TextField
                             value={data.password_confirmation}
@@ -122,8 +121,8 @@ export default function CreateUser({ auth, roles }) {
                             name='password_confirmation'
                             onChange={e => setData('password_confirmation', e.target.value)}
                         />
-                        <InputError message={errors.password_confirmation} className="mt-2" />
-                        
+                        <InputError message={errors.password} className="ml-5 mb-4" />
+
                         <Grid sx={{ padding: 2 }}>
                             <Typography sx={{ fontWeight: 700, padding: 2, fontSize: 20 }}>Role*</Typography>
                             {
@@ -139,7 +138,7 @@ export default function CreateUser({ auth, roles }) {
                                 })
                             }
                         </Grid>
-                        <InputError message={errors.roles} className="mt-2" />
+                        <InputError message={errors.roles} className="ml-5 mb-4" />
                     </div>
                 </Box>
                 <Button variant='contained' onClick={onBtnCreateClick}>Create</Button>

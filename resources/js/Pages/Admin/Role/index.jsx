@@ -47,6 +47,7 @@ export default function ReadRole({ auth, errors, roles, can_create, can_delete, 
             headerName: 'Action',
             sortable: false,
             headerAlign: 'center',
+            width: 180,
             renderCell: (params) => (
                 <TableRow
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -106,6 +107,7 @@ export default function ReadRole({ auth, errors, roles, can_create, can_delete, 
                         rows={roles}
                         columns={columns}
                         disableSelectionOnClick
+                        isCellEditable={(params) => false}
                         experimentalFeatures={{ newEditingApi: true }}
                         components={{ Toolbar: GridToolbar }}
                     />

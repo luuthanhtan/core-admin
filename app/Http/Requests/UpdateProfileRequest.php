@@ -30,4 +30,14 @@ class UpdateProfileRequest extends FormRequest
             'phone' => ['required'],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name is required',
+            'birthday.required'  => 'Birthday is required',
+            'phone.required' => 'Phone is required',
+            'address.required'  => 'Address is required',
+        ];
+    }
 }

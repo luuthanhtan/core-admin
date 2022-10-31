@@ -33,7 +33,9 @@ export default function Authenticated({ auth, header, children }) {
                     <SideBar />
                 </Grid>
                 <Grid item xs={10}>
-                    <nav className="bg-white border-b border-gray-100" style={{ position: 'fixed', width:'85%' }}>
+                    <nav className="bg-white border-b border-gray-100"
+                        style={{ position: 'fixed', width: '85%', zIndex:10 }}
+                    >
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="flex justify-between h-16">
                                 <div className="flex">
@@ -140,7 +142,7 @@ export default function Authenticated({ auth, header, children }) {
                     </nav>
                     {
                         header && (
-                            <header className="bg-white shadow" style={{ paddingTop:60 }}>
+                            <header className="bg-white shadow" style={{ paddingTop: 60 }}>
                                 <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
                             </header>
                         )}

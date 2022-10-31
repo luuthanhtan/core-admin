@@ -27,7 +27,7 @@ class UpdatePasswordRequest extends FormRequest
         return [
             'current_password' => ['required', function ($attribute, $value, $fail) {
                 if (!(Hash::check($value, auth()->user()->password))) {
-                    $fail('Password incorect');     
+                    $fail('Password incorect');
                 }
             }],
             'password' => ['required', 'confirmed'],

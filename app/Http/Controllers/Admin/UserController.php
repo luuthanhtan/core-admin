@@ -134,7 +134,14 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $this->userService->update($request->validated(), $user);
+        dd($request);
+        $updateSuccess = $this->userService->update($request->validated(), $user);
+
+        if (is_null($updateSuccess)) {
+            return response()->json([
+                'message' => 'Failed update',
+            ]);
+        }
 
         return Redirect::route('user.index');
     }

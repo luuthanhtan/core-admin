@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\SoftDeleteController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,7 @@ Route::group([
     Route::resource('user', UserController::class);
     Route::resource('role', RoleController::class);
     Route::resource('setting', SettingController::class);
+    Route::resource('deleted', SoftDeleteController::class);
 });
 
 Route::group([

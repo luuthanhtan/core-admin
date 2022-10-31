@@ -43,6 +43,9 @@ class PermissionSeeder extends Seeder
             [
                 'name' => 'enable role'
             ],
+            [
+                'name' => 'manage soft delete'
+            ],
         ]);
         Role::insert([
             'name' => 'Guest',

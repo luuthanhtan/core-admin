@@ -14,7 +14,6 @@ export default function UpdateRole({ auth, permissions, dataPermissions, role })
         permissions: [],
     })
     const [rolePermissions, setRolePermissions] = useState(dataPermissions)
-
     const onBtnUpdateClick = (e) => {
         e.preventDefault()
         put(route('role.update', role.id))
@@ -42,7 +41,6 @@ export default function UpdateRole({ auth, permissions, dataPermissions, role })
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit Role</h2>}
         >
             <Head title="Edit Role" />
-
             <Paper elevation={24} sx={{ padding: 5, margin: 3 }}>
                 <Box
                     component="form"
@@ -61,7 +59,7 @@ export default function UpdateRole({ auth, permissions, dataPermissions, role })
                             onChange={e => setData('name', e.target.value)}
                             name='name'
                         />
-                        <InputError message={errors.name} className="mt-2" />
+                        <InputError message={errors.name} className="ml-5 mb-4" />
                         
                         <FormControl>
                             <InputLabel>Status</InputLabel>

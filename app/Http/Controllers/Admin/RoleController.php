@@ -43,7 +43,7 @@ class RoleController extends Controller
             'can_edit' => $can_edit,
         ]);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -54,12 +54,12 @@ class RoleController extends Controller
         $this->authorize('can_do', ['create role']);
 
         $permissions = Permission::all();
-        
+
         return Inertia::render('Admin/Role/create', [
             'permissions' => $permissions,
         ]);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -78,7 +78,7 @@ class RoleController extends Controller
 
         return Redirect::route('role.index');
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -89,7 +89,7 @@ class RoleController extends Controller
     {
         //
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -99,18 +99,18 @@ class RoleController extends Controller
     public function edit($id)
     {
         $this->authorize('can_do', ['edit role']);
-        
+
         $role = Role::find($id);
         $dataPermissions = $role->permissions->pluck('id')->toArray();
         $permissions = Permission::all();
-        
+
         return Inertia::render('Admin/Role/edit', [
             'role' => $role,
             'dataPermissions' => $dataPermissions,
             'permissions' => $permissions,
         ]);
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -127,10 +127,10 @@ class RoleController extends Controller
                 'message' => 'Failed create',
             ]);
         }
-        
+
         return Redirect::route('role.index');
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -142,10 +142,10 @@ class RoleController extends Controller
         $this->authorize('can_do', ['delete role']);
 
         $this->roleService->delete($role);
-        
+
         return Redirect::route('role.index');
     }
-    
+
     /**
      * Disable/Enable role status
      * 
@@ -155,7 +155,7 @@ class RoleController extends Controller
     public function setStatus($id)
     {
         $this->authorize('can_do', ['enable role']);
-        
+
         $role = Role::find($id);
         $role->status = !($role->status);
         $role->save();

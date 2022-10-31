@@ -59,6 +59,11 @@ function SideBar(props) {
             <ListItemText>{languageUser.settings}</ListItemText>
           </ListItemButton>
         </ListItem>
+        <ListItem disablePadding alignItems="center">
+          <ListItemButton href={route('deleted.index')}>
+            <ListItemText>{languageUser.deleted}</ListItemText>
+          </ListItemButton>
+        </ListItem>
         <ClockSideBar />
       </List>
     </div>

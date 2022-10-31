@@ -8,7 +8,7 @@ import { settingsSetLoadedActions } from '@/redux/actions/settingsActions';
 
 export default function Content({ timezones }) {
     const { timezone, language, theme, isLoaded } = useSelector((state) => state.settingsReducer);
-    const [valueDefault, setValueDefault] = useState({
+    const [timezoneSelected, setTimezoneSelected] = useState({
         firstLetter: 'Asia',
         text: 'Asia/Ho_Chi_Minh (UTC+07:00)',
         value: 'Asia/Ho_Chi_Minh'
@@ -18,6 +18,7 @@ export default function Content({ timezones }) {
         language: 'en',
         theme: theme,
     })
+    const [showDropdown, setShowDropdown] = useState(false);
 
     const [languageUser, setLanguageUser] = useState(changeLanguage('en'));
     const dispatch = useDispatch();
@@ -30,10 +31,8 @@ export default function Content({ timezones }) {
         };
     });
 
-    function getValueDefault() {
-        return timezones.filter((item => {
-            return item.value == timezone
-        }))[0]
+    function getValueDefault(param) {
+        return timezones.find((item => item.value == param)) ?? {}
     }
 
     useEffect(() => {
@@ -48,13 +47,15 @@ export default function Content({ timezones }) {
     }
 
     useEffect(() => {
-        setData({
-            timezone: timezone ? timezone : 'Asia/Ho_Chi_Minh',
-            language: language ? language : 'en',
-            theme: theme ? theme : '#eeeeee',
-        });
-        setValueDefault(getValueDefault());
-    }, [isLoaded, valueDefault])
+        if (isLoaded) {
+            setData({
+                timezone,
+                language: language ? language : 'en',
+                theme: theme ? theme : '#eeeeee',
+            })
+            setTimezoneSelected({ ...getValueDefault(timezone) });
+        }
+    }, [isLoaded])
 
     return <>
         <Paper elevation={24} sx={{ padding: 5, margin: 3 }}>
@@ -68,25 +69,32 @@ export default function Content({ timezones }) {
                         <Typography sx={{ margin: 2 }}>{languageUser.timezone}</Typography>
                     </Grid>
                     <Grid item>
-                        {
-                            valueDefault ?
-                                <Autocomplete
-                                    defaultValue={valueDefault}
-                                    options={options}
-                                    groupBy={(option) => option.firstLetter}
-                                    getOptionLabel={(option) => option.text}
-                                    onChange={(e, value) => { value && setData("timezone", value.value); console.log(value) }}
-                                    sx={{ width: 400 }}
-                                    renderInput={(params) => <TextField {...params} label="Timezone" />}
-                                /> : <Autocomplete
-                                    options={options}
-                                    groupBy={(option) => option.firstLetter}
-                                    getOptionLabel={(option) => option.text}
-                                    onChange={(e, value) => value && setData("timezone", value.value)}
-                                    sx={{ width: 400 }}
-                                    renderInput={(params) => <TextField {...params} label="Timezone" />}
-                                />
-                        }
+                        <Autocomplete
+                            value={timezoneSelected}
+                            options={options}
+                            groupBy={(option) => option.firstLetter}
+                            getOptionLabel={(option) => option.text}
+                            onChange={(e, value) => {
+                                value && setData("timezone", value.value);
+                                setTimezoneSelected(value)
+                            }}
+                            sx={{ width: 400 }}
+                            renderInput={(params) => <TextField {...params} label="Timezone" />}
+                        />
+                        <div>
+                            <input
+                                onChange={(e) => {
+                                    setShowDropdown(e.target.value.length > 0)
+                                }}
+                                placeholder='Timezone' />
+                            {showDropdown && <div>
+                                <ul>
+                                    <li>1</li>
+                                    <li>2</li>
+                                    <li>3</li>
+                                </ul>
+                            </div>}
+                        </div>
                     </Grid>
                 </Grid>
                 <Grid container padding={2}>

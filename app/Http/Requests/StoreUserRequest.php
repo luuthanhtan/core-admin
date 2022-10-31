@@ -32,4 +32,15 @@ class StoreUserRequest extends FormRequest
             'roles' => ['required', 'array'],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name is required',
+            'email.required'  => 'Email is required',
+            'password.required' => 'Password is required',
+            'roles.required'  => 'Roles are required',
+            'password.confirmed' => 'Password confirmation does not match'
+        ];
+    }
 }

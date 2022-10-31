@@ -5,33 +5,34 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box, Button } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import RestoreIcon from '@mui/icons-material/Restore';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useForm } from '@inertiajs/inertia-react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 
-export default function User({ auth, errors, users, can_create, can_delete, can_edit }) {
+export default function User({ auth, errors, users_deleted, can_create, can_delete, can_edit }) {
 
-    const { delete: destroy } = useForm()
+    const { put, delete: destroy } = useForm()
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
         {
             field: 'name',
             headerName: 'Name',
-            width: 200,
-            editable: true,
-        },
-        {
-            field: 'birthday',
-            headerName: 'Birthday',
+            width: 150,
             width: 150,
             editable: true,
         },
         {
             field: 'email',
             headerName: 'Email',
-            width: 250,
+            width: 150,
+            editable: true,
+        },
+        {
+            field: 'birthday',
+            headerName: 'Birthday',
+            width: 150,
             editable: true,
         },
         {
@@ -59,40 +60,41 @@ export default function User({ auth, errors, users, can_create, can_delete, can_
             )
         },
         {
+            field: 'deleted_at',
+            headerName: 'Deleted at',
+            width: 150,
+            editable: true,
+            headerAlign: 'center',
+            renderCell: (params) => (new Date(params.value).toLocaleString())
+        },
+        {
             field: 'action',
             headerName: 'Action',
             sortable: false,
-            width: 180,
             headerAlign: 'center',
+            width: 180,
             renderCell: (params) => (
                 <TableRow
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                     {
-                        can_edit || can_delete ?
-                            <TableCell align="center">
-                                {
-                                    can_edit ?
-                                        <Button href={route('user.edit', params.row.id)}>
-                                            <EditIcon />
-                                        </Button>
-                                        : null
-                                }
-                                {
-                                    can_delete ?
-                                        <Button
-                                            onClick={() => {
-                                                if (confirm('Are you sure?'))
-                                                    destroy(route('user.destroy', params.row.id))
-                                            }}
-                                            sx={{ color: 'red' }}
-                                        >
-                                            <DeleteIcon />
-                                        </Button>
-                                        : null
-                                }
-                            </TableCell>
-                            : null
+                        <TableCell align="center">
+                            <Button onClick={() => {
+                                if (confirm('Restore it?'))
+                                    put(route('deleted.update', params.row.id))
+                            }}>
+                                <RestoreIcon />
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    if (confirm('Delete it forever?'))
+                                        destroy(route('deleted.destroy', params.row.id))
+                                }}
+                                sx={{ color: 'red' }}
+                            >
+                                <DeleteForeverIcon />
+                            </Button>
+                        </TableCell>
                     }
                 </TableRow>
             ),
@@ -103,18 +105,14 @@ export default function User({ auth, errors, users, can_create, can_delete, can_
         <AuthenticatedLayout
             auth={auth}
             errors={errors}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">User List</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">User Deleted List</h2>}
         >
-            <Head title="User List" />
-            {
-                can_create ?
-                    <Button variant='contained' sx={{ margin: 2 }} href={route('user.create')}>Create User</Button>
-                    : null
-            }
+            <Head title="User Deleted List" />
+
             <Paper elevation={24} sx={{ padding: 5, margin: 3 }}>
                 <Box sx={{ height: 400, width: '100%' }}>
                     <DataGrid
-                        rows={users.data}
+                        rows={users_deleted.data}
                         columns={columns}
                         disableSelectionOnClick
                         isCellEditable={(params) => false}

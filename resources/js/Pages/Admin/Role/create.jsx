@@ -13,6 +13,7 @@ export default function CreateRole({ auth, permissions }) {
         permissions: [],
     })
     const [rolePermissions, setRolePermissions] = useState([])
+    const [message, setMessage] = useState('');
 
     const onBtnCreateClick = (e) => {
         e.preventDefault()
@@ -49,6 +50,7 @@ export default function CreateRole({ auth, permissions }) {
                     autoComplete="off"
                 >
                     <div>
+                        <h2>{ message }</h2>
                         <TextField
                             required
                             label="Name"
@@ -60,7 +62,7 @@ export default function CreateRole({ auth, permissions }) {
                             onChange={e => setData('name', e.target.value)}
                             name='name'
                         />
-                        <InputError message={errors.name} className="mt-2" />
+                        <InputError message={errors.name} className="ml-5 mb-4" />
 
                         <FormControl>
                             <InputLabel>Status</InputLabel>

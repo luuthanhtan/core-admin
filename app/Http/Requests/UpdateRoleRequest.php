@@ -30,4 +30,12 @@ class UpdateRoleRequest extends FormRequest
             'permissions' => ['required', 'array'],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name is required',
+            'permissions.required'  => 'Permissions are required',
+        ];
+    }
 }

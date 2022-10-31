@@ -26,10 +26,17 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'email' => ['required'],
             'password' => ['nullable'],
             'status' => ['required'],
             'roles' => ['required', 'array'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name is required',
+            'roles.required'  => 'Roles are required',
         ];
     }
 }

@@ -20,7 +20,9 @@ class UserService
 
     public function getList(array $filter = [])
     {
-        return $this->user->filter($filter)->search($filter, ['name', 'email', 'phone', 'id', 'address', 'birthday'])->getWithPaginate($filter);
+        return $this->user->filter($filter)
+            ->search($filter, ['name', 'email', 'phone', 'id', 'address', 'birthday'])
+            ->getWithPaginate($filter);
     }
 
     public function create($data)

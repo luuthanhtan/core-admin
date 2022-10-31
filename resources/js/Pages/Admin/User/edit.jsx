@@ -8,7 +8,6 @@ export default function EditUser({ auth, roles, dataRoles, user }) {
 
     const { data, setData, put, errors } = useForm({
         name: user.name,
-        email: user.email,
         password: '',
         status: user.status,
         roles: [],
@@ -71,10 +70,10 @@ export default function EditUser({ auth, roles, dataRoles, user }) {
                             name='name'
                             onChange={e => setData('name', e.target.value)}
                         />
-                        <InputError message={errors.email} className="mt-2" />
+                        <InputError message={errors.name} className="ml-5 mb-4" />
 
                         <TextField
-                            value={data.email}
+                            value={user.email}
                             disabled
                             type="email"
                             label="Email"
@@ -104,19 +103,21 @@ export default function EditUser({ auth, roles, dataRoles, user }) {
                         />
                         {
                             changePassword ?
-                                <TextField
-                                    value={data.password}
-                                    required
-                                    label="Password"
-                                    type="password"
-                                    autoComplete="new-password"
-                                    sx={{
-                                        width: "97.5%"
-                                    }}
-                                    name='password'
-                                    onChange={e => setData('password', e.target.value)}
-                                />
-                                : null
+                                <>
+                                    <TextField
+                                        value={data.password}
+                                        required
+                                        label="Password"
+                                        type="password"
+                                        autoComplete="new-password"
+                                        sx={{
+                                            width: "97.5%"
+                                        }}
+                                        name='password'
+                                        onChange={e => setData('password', e.target.value)}
+                                    />
+                                    <InputError message={errors.password} className="ml-5 mb-4" />
+                                </> : null
                         }
                         <InputError message={message} className="mt-2" />
 
@@ -135,6 +136,7 @@ export default function EditUser({ auth, roles, dataRoles, user }) {
                                 })
                             }
                         </Grid>
+                        <InputError message={errors.roles} className="ml-5 mb-4" />
                     </div>
                 </Box>
                 <Button variant='contained' onClick={onBtnUpdateClick}>Update</Button>
