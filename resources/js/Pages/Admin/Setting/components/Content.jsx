@@ -1,44 +1,22 @@
 import { useForm } from '@inertiajs/inertia-react';
-import { Paper, Box, Typography, Select, Grid, MenuItem, Button, Autocomplete, TextField } from '@mui/material';
+import { Paper, Box, Typography, Select, Grid, MenuItem, Button, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import changeLanguage from '../../../../../lang/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { settingsSetLoadedActions } from '@/redux/actions/settingsActions';
+import SelectTimezone from './SelectTimezone';
 
 
 export default function Content({ timezones }) {
     const { timezone, language, theme, isLoaded } = useSelector((state) => state.settingsReducer);
-    const [timezoneSelected, setTimezoneSelected] = useState({
-        firstLetter: 'Asia',
-        text: 'Asia/Ho_Chi_Minh (UTC+07:00)',
-        value: 'Asia/Ho_Chi_Minh'
-    })
     const { data, setData, post } = useForm({
         timezone: timezone,
         language: 'en',
         theme: theme,
     })
-    const [showDropdown, setShowDropdown] = useState(false);
 
     const [languageUser, setLanguageUser] = useState(changeLanguage('en'));
     const dispatch = useDispatch();
-
-    const options = timezones.map((option) => {
-        const firstLetter = option.value.split("/")[0];
-        return {
-            firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
-            ...option,
-        };
-    });
-
-    function getValueDefault(param) {
-        return timezones.find((item => item.value == param)) ?? {}
-    }
-
-    useEffect(() => {
-        setLanguageUser(changeLanguage(language))
-    }, [language])
-
 
     const onBtnSaveClick = (e) => {
         e.preventDefault()
@@ -49,13 +27,16 @@ export default function Content({ timezones }) {
     useEffect(() => {
         if (isLoaded) {
             setData({
-                timezone,
+                timezone: timezone ? timezone : 'Asia/Ho_Chi_Minh',
                 language: language ? language : 'en',
                 theme: theme ? theme : '#eeeeee',
             })
-            setTimezoneSelected({ ...getValueDefault(timezone) });
         }
     }, [isLoaded])
+
+    useEffect(() => {
+        setLanguageUser(changeLanguage(language))
+    }, [language])
 
     return <>
         <Paper elevation={24} sx={{ padding: 5, margin: 3 }}>
@@ -69,32 +50,11 @@ export default function Content({ timezones }) {
                         <Typography sx={{ margin: 2 }}>{languageUser.timezone}</Typography>
                     </Grid>
                     <Grid item>
-                        <Autocomplete
-                            value={timezoneSelected}
-                            options={options}
-                            groupBy={(option) => option.firstLetter}
-                            getOptionLabel={(option) => option.text}
-                            onChange={(e, value) => {
-                                value && setData("timezone", value.value);
-                                setTimezoneSelected(value)
-                            }}
-                            sx={{ width: 400 }}
-                            renderInput={(params) => <TextField {...params} label="Timezone" />}
+                        <SelectTimezone
+                            timezones={timezones}
+                            value={data.timezone}
+                            setValue={(param) => setData('timezone', param)}
                         />
-                        <div>
-                            <input
-                                onChange={(e) => {
-                                    setShowDropdown(e.target.value.length > 0)
-                                }}
-                                placeholder='Timezone' />
-                            {showDropdown && <div>
-                                <ul>
-                                    <li>1</li>
-                                    <li>2</li>
-                                    <li>3</li>
-                                </ul>
-                            </div>}
-                        </div>
                     </Grid>
                 </Grid>
                 <Grid container padding={2}>
@@ -120,9 +80,19 @@ export default function Content({ timezones }) {
                         <Typography sx={{ margin: 2 }}>{languageUser.theme}</Typography>
                     </Grid>
                     <Grid item>
-                        <TextField
+                        <input
                             type="color"
-                            sx={{ width: '100px' }}
+                            style={{
+                                padding: 5,
+                                marginTop:6,
+                                border: 1,
+                                borderStyle: 'solid',
+                                borderRadius: '5px',
+                                borderColor: 'rgb(196,196,196,1)',
+                                backgroundColor:'white',
+                                width: 60,
+                                height:40
+                            }} 
                             value={data.theme}
                             onChange={(e) => { setData("theme", e.target.value) }} />
                     </Grid>

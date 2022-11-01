@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, useForm } from '@inertiajs/inertia-react';
+import { Head } from '@inertiajs/inertia-react';
 import { useSelector } from 'react-redux';
 import Content from './components/Content';
 import changeLanguage from '../../../../lang/index';

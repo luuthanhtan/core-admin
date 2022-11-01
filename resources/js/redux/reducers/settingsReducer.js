@@ -7,7 +7,7 @@ const initialState = {
     isLoaded: false,
 }
 
-const saveSettingsEvent = (state = initialState, action) => {
+const settingsReducer = (state = initialState, action) => {
     switch (action.type) {
         case SETTINGS_SET_SETTINGS_ACTIONS:
             {
@@ -30,4 +30,4 @@ const saveSettingsEvent = (state = initialState, action) => {
 }
 
 
-export default saveSettingsEvent
+export default settingsReducer
