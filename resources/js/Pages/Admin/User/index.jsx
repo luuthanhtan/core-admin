@@ -111,6 +111,7 @@ export default function User({ auth, errors, users, can_create, can_delete, can_
                     <Button variant='contained' sx={{ margin: 2 }} href={route('user.create')}>Create User</Button>
                     : null
             }
+            
             <Paper elevation={24} sx={{ padding: 5, margin: 3 }}>
                 <Box sx={{ height: 400, width: '100%' }}>
                     <DataGrid
