@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->boolean('is_admin')->default(false);
-            $table->boolean('status')->default(false);
+            $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
