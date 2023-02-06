@@ -89,7 +89,7 @@ export default function Content({ timezones }) {
                                 borderStyle: 'solid',
                                 borderRadius: '5px',
                                 borderColor: 'rgb(196,196,196,1)',
-                                backgroundColor:'white',
+                                backgroundColor:'#fff',
                                 width: 60,
                                 height:40
                             }} 
