@@ -12,6 +12,6 @@ trait HasPagination
         if (Arr::has($filter, 'paginate')) {
            return $query->paginate(Arr::get($filter, 'paginate'))->withQueryString();
         }
-        return $query->get();
+        return ["data" => $query->get()];
     }
 }

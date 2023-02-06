@@ -44,7 +44,6 @@ class UserController extends Controller
                 ...$request->query('filter', []),
                 'is_admin' => 0,
             ],
-            'paginate' => 10,
         ];
         $users = $this->userService->getList($filter);
 
@@ -134,7 +133,6 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        dd($request);
         $updateSuccess = $this->userService->update($request->validated(), $user);
 
         if (is_null($updateSuccess)) {

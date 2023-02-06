@@ -23,27 +23,9 @@ export default function User({ auth, errors, users, can_create, can_delete, can_
             editable: true,
         },
         {
-            field: 'birthday',
-            headerName: 'Birthday',
-            width: 150,
-            editable: true,
-        },
-        {
             field: 'email',
             headerName: 'Email',
             width: 250,
-            editable: true,
-        },
-        {
-            field: 'phone',
-            headerName: 'Phone',
-            width: 150,
-            editable: true,
-        },
-        {
-            field: 'address',
-            headerName: 'Address',
-            width: 150,
             editable: true,
         },
         {
@@ -121,6 +103,7 @@ export default function User({ auth, errors, users, can_create, can_delete, can_
                         isCellEditable={(params) => false}
                         experimentalFeatures={{ newEditingApi: true }}
                         components={{ Toolbar: GridToolbar }}
+                        pageSize={10}
                     />
                 </Box>
             </Paper>

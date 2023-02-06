@@ -6,7 +6,7 @@ const fetchUserSettings = (id) => {
             return data;
         })
         .catch((error) => {
-            console.error(error.message)
+            console.log(error.message)
         })
 }
 

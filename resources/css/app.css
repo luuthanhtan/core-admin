@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.css-hwk0gy-MuiPaper-root {
+    padding: 20px !important;
+    margin: 15px !important;
+}
