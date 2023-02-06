@@ -1,8 +1,6 @@
 import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/inertia-react';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Box, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,7 +9,6 @@ import { useForm } from '@inertiajs/inertia-react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 export default function User({ auth, errors, users, can_create, can_delete, can_edit }) {
-
     const { delete: destroy } = useForm()
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
