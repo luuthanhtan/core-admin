@@ -106,6 +106,7 @@ export default function Profile({ auth, roles, dataRoles, user }) {
                                     <FormControlLabel
                                         control={<Checkbox checked />}
                                         label='Super Admin'
+                                        read
                                     />
                                     :
                                     roles.map((role, index) => {

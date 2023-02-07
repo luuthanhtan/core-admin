@@ -26,25 +26,7 @@ export default function User({ auth, errors, users_deleted, can_create, can_dele
         {
             field: 'email',
             headerName: 'Email',
-            width: 150,
-            editable: true,
-        },
-        {
-            field: 'birthday',
-            headerName: 'Birthday',
-            width: 150,
-            editable: true,
-        },
-        {
-            field: 'phone',
-            headerName: 'Phone',
-            width: 150,
-            editable: true,
-        },
-        {
-            field: 'address',
-            headerName: 'Address',
-            width: 150,
+            width: 300,
             editable: true,
         },
         {
@@ -55,7 +37,7 @@ export default function User({ auth, errors, users_deleted, can_create, can_dele
             headerAlign: 'center',
             renderCell: (params) => (
                 <TableCell align="center">
-                    {params ? 'Enable' : 'Disable'}
+                    {params.value ? 'Enable' : 'Disable'}
                 </TableCell>
             )
         },

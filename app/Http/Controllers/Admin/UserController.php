@@ -44,6 +44,8 @@ class UserController extends Controller
                 ...$request->query('filter', []),
                 'is_admin' => 0,
             ],
+            'search' => $request->query('search', ''),
+            'paginate' => 10,
         ];
         $users = $this->userService->getList($filter);
 
