@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/inertia-react';
 import { useSelector } from 'react-redux';
 import Content from './components/Content';
-import changeLanguage from '../../../../lang/index';
+import changeLanguage from '../../../../../lang/index';
 
 export default function Settings({ auth, errors, timezones }) {
 

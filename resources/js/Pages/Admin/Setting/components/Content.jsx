@@ -1,7 +1,7 @@
 import { useForm } from '@inertiajs/inertia-react';
 import { Paper, Box, Typography, Select, Grid, MenuItem, Button, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import changeLanguage from '../../../../../lang/index';
+import changeLanguage from '../../../../../../lang/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { settingsSetLoadedActions } from '@/redux/actions/settingsActions';
 import SelectTimezone from './SelectTimezone';
