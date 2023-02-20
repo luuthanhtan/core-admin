@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +14,14 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+    'prefix' => 'v1/user',
+], function () {
+    Route::get('/', [UserController::class, 'index'])->middleware(['auth:sanctum', 'abilities:read user']);
+    Route::get('/{id}', [UserController::class, 'show'])->middleware(['auth:sanctum', 'abilities:read role']);
+    Route::post('/create', [UserController::class, 'store'])->middleware(['auth:sanctum', 'abilities:create user']);
+    Route::put('/edit/{id}', [UserController::class, 'update'])->middleware(['auth:sanctum', 'abilities:edit user']);
+    Route::delete('/delete/{id}', [UserController::class, 'destroy'])->middleware(['auth:sanctum', 'abilities:delete user']);
 });
