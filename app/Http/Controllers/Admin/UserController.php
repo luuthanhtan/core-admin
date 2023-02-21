@@ -33,10 +33,10 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('can_do', ['read user']);
-        $can_create = Gate::check('can_do', ['create user']);
-        $can_delete = Gate::check('can_do', ['delete user']);
-        $can_edit = Gate::check('can_do', ['edit user']);
+        $this->authorize('can_do', ['read-user']);
+        $can_create = Gate::check('can_do', ['create-user']);
+        $can_delete = Gate::check('can_do', ['delete-user']);
+        $can_edit = Gate::check('can_do', ['edit-user']);
 
         $filter = [
             ...$request->query(),
@@ -64,7 +64,7 @@ class UserController extends Controller
     {
         $ENABLE = 1;
         $DISABLE = 0;
-        $this->authorize('can_do', ['create user']);
+        $this->authorize('can_do', ['create-user']);
 
         $roles = Role::where('status', $ENABLE)->get();
 
@@ -111,7 +111,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('can_do', ['edit user']);
+        $this->authorize('can_do', ['edit-user']);
 
         $user = User::find($id);
         $dataRoles = $user->roles->pluck('id')->toArray();
@@ -152,7 +152,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $this->authorize('can_do', ['delete user']);
+        $this->authorize('can_do', ['delete-user']);
 
         $this->userService->delete($user);
 

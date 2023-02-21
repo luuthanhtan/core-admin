@@ -10,7 +10,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useForm } from '@inertiajs/inertia-react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
-
 export default function User({ auth, errors, users, can_create, can_delete, can_edit }) {
 
     const { delete: destroy } = useForm()

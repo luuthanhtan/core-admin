@@ -26,7 +26,7 @@ class SoftDeleteController extends Controller
      */
     public function index()
     {
-        $this->authorize('can_do', ['manage soft delete']);
+        $this->authorize('can_do', ['manage-soft-delete']);
 
         $filter = [
             'paginate' => 10,
@@ -90,7 +90,7 @@ class SoftDeleteController extends Controller
      */
     public function update($id)
     {
-        $this->authorize('can_do', ['manage soft delete']);
+        $this->authorize('can_do', ['manage-soft-delete']);
 
         User::withTrashed()
         ->where('id', $id)
@@ -107,7 +107,7 @@ class SoftDeleteController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('can_do', ['manage soft delete']);
+        $this->authorize('can_do', ['manage-soft-delete']);
 
         User::withTrashed()
         ->where('id', $id)

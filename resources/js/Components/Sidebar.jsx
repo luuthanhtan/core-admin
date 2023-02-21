@@ -11,7 +11,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Grid, Typography } from '@mui/material';
 import ClockSideBar from './ClockSideBar';
-import changeLanguage from '../../lang/index';
+import changeLanguage from '../../../lang/index';
 import { useSelector } from 'react-redux';
 
 

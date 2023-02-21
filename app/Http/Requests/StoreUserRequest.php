@@ -14,7 +14,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::check('can_do', ['create user']);
+        return Gate::check('can_do', ['create-user']);
     }
 
     /**

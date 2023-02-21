@@ -14,7 +14,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::check('can_do', ['edit user']);
+        return Gate::check('can_do', ['edit-user']);
     }
 
     /**
@@ -27,8 +27,11 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => ['required'],
             'password' => ['nullable'],
-            'status' => ['required'],
+            'status'=> ['nullable'],
             'roles' => ['required', 'array'],
+            'birthday' => ['nullable'],
+            'phone' => ['nullable'],
+            'address' => ['nullable'],
         ];
     }
 

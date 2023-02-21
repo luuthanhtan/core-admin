@@ -29,10 +29,10 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $this->authorize('can_do', ['read role']);
-        $can_create = Gate::check('can_do', ['create role']);
-        $can_delete = Gate::check('can_do', ['delete role']);
-        $can_edit = Gate::check('can_do', ['edit role']);
+        $this->authorize('can_do', ['read-role']);
+        $can_create = Gate::check('can_do', ['create-role']);
+        $can_delete = Gate::check('can_do', ['delete-role']);
+        $can_edit = Gate::check('can_do', ['edit-role']);
 
         $roles = Role::get();
 
@@ -51,7 +51,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $this->authorize('can_do', ['create role']);
+        $this->authorize('can_do', ['create-role']);
 
         $permissions = Permission::all();
 
@@ -98,7 +98,7 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('can_do', ['edit role']);
+        $this->authorize('can_do', ['edit-role']);
 
         $role = Role::find($id);
         $dataPermissions = $role->permissions->pluck('id')->toArray();
@@ -139,7 +139,7 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        $this->authorize('can_do', ['delete role']);
+        $this->authorize('can_do', ['delete-role']);
 
         $this->roleService->delete($role);
 
@@ -154,7 +154,7 @@ class RoleController extends Controller
      */
     public function setStatus($id)
     {
-        $this->authorize('can_do', ['enable role']);
+        $this->authorize('can_do', ['enable-role']);
 
         $role = Role::find($id);
         $role->status = !($role->status);
