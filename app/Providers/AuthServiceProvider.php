@@ -35,4 +35,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('can_do', function(User $user, $permissionName) {
             return $user->hasPermission($permissionName);
         });
+    }
 }
