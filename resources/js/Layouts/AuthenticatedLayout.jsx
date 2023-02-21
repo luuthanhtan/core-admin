@@ -6,7 +6,7 @@ import { Grid } from '@mui/material';
 import { fetchUserSettings } from '@/Services/ServicesAPI';
 import { useDispatch, useSelector } from 'react-redux';
 import { settingsSetSettingsActions } from '@/redux/actions/settingsActions';
-import changeLanguage from '../../lang/index';
+import changeLanguage from '../../../lang/index';
 
 export default function Authenticated({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);

@@ -14,7 +14,7 @@ class UpdateRoleRequest extends FormRequest
      */
     public function authorize()
     {
-        return Gate::check('can_do', ['edit role']);
+        return Gate::check('can_do', ['edit-role']);
     }
 
     /**

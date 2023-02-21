@@ -6,7 +6,6 @@ const viLanguage = {
     'settings': 'Cài đặt',
     'deleted': 'Đã xoá',
 
-
     //Auth
     'profile': 'Thông tin',
     'change_password': 'Đổi mật khẩu',
@@ -17,8 +16,12 @@ const viLanguage = {
     'language': 'Ngôn ngữ',
     'theme': 'Giao diện',
 
-
     // Role
     'create_role': 'Tạo role mới',
+
+    // User
+    'create_user': 'Tạo user mới',
+    'disable': 'Chưa kích hoạt',
+    'enable': 'Đã kích hoạt',
 }
 export { viLanguage }

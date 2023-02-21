@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useForm } from '@inertiajs/inertia-react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import changeLanguage from '../../../../lang/index';
+import changeLanguage from '../../../../../lang/index';
 import { useSelector } from 'react-redux';
 
 

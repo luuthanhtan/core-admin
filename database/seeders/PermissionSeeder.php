@@ -17,34 +17,34 @@ class PermissionSeeder extends Seeder
     {
         Permission::insert([
             [
-                'name' => 'read user',
+                'name' => 'read-user'
             ],
             [
-                'name' => 'read role',
+                'name' => 'read-role'
             ],
             [
-                'name' => 'create user',
+                'name' => 'create-user'
             ],
             [
-                'name' => 'create role',
+                'name' => 'create-role'
             ],
             [
-                'name' => 'edit user',
+                'name' => 'edit-user'
             ],
             [
-                'name' => 'edit role',
+                'name' => 'edit-role'
             ],
             [
-                'name' => 'delete user',
+                'name' => 'delete-user'
             ],
             [
-                'name' => 'delete role',
+                'name' => 'delete-role'
             ],
             [
-                'name' => 'enable role'
+                'name' => 'enable-role'
             ],
             [
-                'name' => 'manage soft delete'
+                'name' => 'manage-soft-delete'
             ],
         ]);
         Role::insert([
