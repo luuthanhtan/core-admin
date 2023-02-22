@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/refresh-token', [UserController::class, 'refreshToken']);
+
+Route::group([
+    'prefix' => 'v1/user',
+    'middleware' => 'auth:api',
+], function () {
+    Route::get('/', [UserController::class, 'index'])->middleware(['scopes:read-user']);
+    Route::get('/{id}', [UserController::class, 'show'])->middleware(['scopes:read-user']);
+    Route::post('/create', [UserController::class, 'store'])->middleware(['scopes:create-user']);
+    Route::put('/edit/{id}', [UserController::class, 'update'])->middleware(['scopes:edit-user']);
+    Route::delete('/delete/{id}', [UserController::class, 'destroy'])->middleware(['scopes:detele-user']);
 });
