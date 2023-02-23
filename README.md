@@ -43,21 +43,36 @@ DB_PASSWORD=password
 Chạy lệnh tạo database và thêm dữ liệu mẫu:
 
 ```bash
-php artisan migrate --seed
+sail php artisan migrate --seed
 ```
 
 Có thể chạy factory để tạo dự liệu thêm
 
 ```bash
-sail bash
-```
-
-```bash
-php artisan tinker
+sail php artisan tinker
 ```
 
 Tạo 10 user ảo (password:12345678)
 
 ```bash
 App\Models\User::factory(10)->create()
+```
+
+## Nếu sử dụng Passport
+
+```bash
+sail php artisan passport:client --password
+```
+
+Lấy client-id và client-secret
+Thêm vào .env
+
+```bash
+PASSPORT_PASSWORD_GRANT_CLIENT_ID="client-id-value"
+PASSPORT_PASSWORD_GRANT_CLIENT_SECRET="unhashed-client-secret-value"
+```
+
+Chạy lệnh
+```bash
+sail php artisan serve --port=812
 ```
