@@ -22,6 +22,7 @@ export default function ClockSideBar() {
         <>
             <Divider />
             <Grid padding={2} sx={{ textAlign: "center" }}>
+                <p>{timezone}</p>
                 <Typography sx={{ fontSize: 15, fontWeight: 500 }} >{time}</Typography>
             </Grid>
             <Divider />

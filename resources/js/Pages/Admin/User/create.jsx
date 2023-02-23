@@ -59,11 +59,12 @@ export default function CreateUser({ auth, roles }) {
                     noValidate
                     autoComplete="off"
                 >
-                    <div>
+                    <div className='create_user_name'>
                         <TextField
                             value={data.name}
                             required
                             label="Name"
+                            type="text"
                             sx={{
                                 width: "97.5%"
                             }}
