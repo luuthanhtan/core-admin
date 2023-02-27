@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ResetPasswordController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/refresh-token', [UserController::class, 'refreshToken']);
+Route::post('/forgot-password', [ResetPasswordController::class, 'sendMail']);
+Route::put('/forgot-password/{token}', [ResetPasswordController::class, 'reset']);
 
 Route::group([
     'prefix' => 'v1/user',
