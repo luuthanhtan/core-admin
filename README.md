@@ -11,6 +11,16 @@ cp .env.example .env
 ```
 
 ```bash
+composer install
+```
+
+```bash
+npm install
+```
+
+
+## Nếu dùng docker cài sail
+```bash
 php artisan sail:install
 ```
 
@@ -24,6 +34,8 @@ alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 sail up -d --build
 ```
 
+
+## Chạy vite
 ```bash
 npm run dev
 ```
@@ -48,9 +60,12 @@ php artisan migrate --seed
 
 Có thể chạy factory để tạo dự liệu thêm
 
+
+# Nếu dùng sail
 ```bash
 sail bash
 ```
+
 
 ```bash
 php artisan tinker
